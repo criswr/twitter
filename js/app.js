@@ -113,12 +113,3 @@ function menu (){
     }
 }
 
-
-/* Llamadas  */
-
-if (login()) {
-    twitear();
-    menu();
-}else{
-    alert("No se ha iniciado sesión.");
-}

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+:root {
+    --principal: #1DA1F2;
+    --principalOscuro: #243447;
+    --negro: #14171A;
+    --grisOscuro: #657786;
+    --grisClaro: #AAB8C2;
+    --destacadoOscuro: #c51f5d;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+.visible {
+    display: block;
+}
+
+.invisible {
+    display: none;
+}
+
+.relative {
+    position: relative;
+}
+
+
+/* Login */
+
+.loginCont {
+    background-color: var(--principalOscuro);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    background-color: var(--negro);
+    height: 90vh;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    border-radius: 20px;
+    
+}
+
+.login img{
+    filter: brightness(0) invert(1);
+    width: 30px;
+    opacity: 0.8;
+}
+
+.input {
+    background-color: var(--negro);
+    border-radius: 5px;
+    border: var(--grisOscuro) 1px solid;
+    font-size: 18px;
+    height: 50px;
+    outline: 0;
+    padding: 4px 20px;
+    width: 100%;
+}
+
+.inputUsuario {
+    padding-left: 40px;
+}
+
+.labelUsuario {
+    position: absolute;
+    font-size: 20px;
+    top: 13px;
+    left: 15px;
+    color: var(--grisOscuro);
+    font-weight: 900;
+}
+
+.botonLogin {
+    background-color: var(--grisClaro);
+    color: var(--negro);
+    border-radius: 50px;
+    border: 0;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    text-align: center;
+    width: 100%;
+}

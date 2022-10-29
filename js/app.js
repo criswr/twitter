@@ -86,14 +86,28 @@ loginRegistrarse.addEventListener("input", () => {
     }
 })
 
+
+// Usuarios guardados
+const fetchUsuarios = async () => {
+    const res = await fetch("./data/usuarios.json");
+    const data = await res.json();
+    localStorage.setItem("usuarios", JSON.stringify(data));
+    usuarios = data
+}
+
+
 // Registro
 const recuperarUsuarios = () => {
     const usuariosStored = JSON.parse(localStorage.getItem("usuarios"));
     if (usuariosStored) {
         usuarios = usuariosStored
+    }else{
+        fetchUsuarios()
     }
 }
 recuperarUsuarios()
+
+
 
 const advertir = (texto, color) => {
     advertencia.classList.remove("invisible");
@@ -106,6 +120,8 @@ const advertir = (texto, color) => {
     setTimeout(() => advertencia.classList.add("invisible"), 3000);
 }
 
+
+// Agregar a localstorage
 const registrar = () => {
     const registro = {
         usuario: inputUsuarioRegistro.value.toLowerCase(),
@@ -268,16 +284,8 @@ botonTwit.addEventListener("click", () => {
 
 
 // Recuperar twits guardados
-/* const recuperarTimeline = () => {
-    const timelineStored = JSON.parse(localStorage.getItem("timeline"));
-    if (timelineStored) {
-        timeline = timelineStored;
-    }
-}
-recuperarTimeline(); */
-
-const fetchear = async (url) => {
-    const res = await fetch(url);
+const fetchTwits = async () => {
+    const res = await fetch("./data/twits.json");
     const data = await res.json();
     const dataMezcla = data.sort((a, b) => 0.5 - Math.random());
 
@@ -287,18 +295,36 @@ const fetchear = async (url) => {
             if (!timeline.find((obj) => obj.id === dataMezcla[i].id)) {
                 twitearAuto(dataMezcla[i]);
             }           
-        }, 5000 * i);
+        }, 10000 * i);
     }
 }
-fetchear("./data/twits.json");
+fetchTwits();
+
+
 
 
 // Mostrar timeline
 const twits = (contenido) => {
+    /* (usuarios.find((obj) => obj.usuario === registro.usuario.toLowerCase())) */
+    const findImagen = (nombre) => {
+        const autor = usuarios.find((obj) => obj.usuario === nombre)
+        if (autor.imagen === "") {
+            return "./img/perfil/default.png"
+        }else{
+            return autor.imagen
+        }
+    }
+
     const twit = document.createElement("div");
     twit.classList.add("twit");
-    twit.innerHTML += `<p class="twitUsuario">@${contenido.usuario}<span class="twitFecha"> ${contenido.fecha}</span></p>`;
-    twit.innerHTML += `<p class="twitCuerpo">${contenido.cuerpo}</p>`;
+    const imagen = document.createElement("div");
+    imagen.classList.add("twitImagen");
+    const texto = document.createElement("div")
+    twit.appendChild(imagen)
+    twit.appendChild(texto)
+    imagen.innerHTML = `<img src="${findImagen(contenido.usuario)}" alt="${contenido.usuario}">`
+    texto.innerHTML = `<p class="twitUsuario">@${contenido.usuario}<span class="twitFecha"> ${contenido.fecha}</span></p>`;
+    texto.innerHTML += `<p class="twitCuerpo">${contenido.cuerpo}</p>`;
     return twit
 }
 

@@ -2,26 +2,26 @@
     {
         "usuario":"elonmusk",
         "password":"1234",
-        "image":".img/perfil/elonmusk.jpg"
+        "imagen":"./img/perfil/elonmusk.jpg"
     },
     {
         "usuario":"ibaillanos",
         "password":"1234",
-        "image":".img/perfil/ibaillanos.jpg"
+        "imagen":"./img/perfil/ibaillanos.jpg"
     },
     {
         "usuario":"auronplay",
         "password":"1234",
-        "image":".img/perfil/auronplay.jpg"
+        "imagen":"./img/perfil/auronplay.jpg"
     },
     {
         "usuario":"chvnoticias",
         "password":"1234",
-        "image":".img/perfil/chvnoticias.jpg"
+        "imagen":"./img/perfil/chvnoticias.jpg"
     },
     {
         "usuario":"copano",
         "password":"1234",
-        "image":".img/perfil/copano.jpg"
+        "imagen":"./img/perfil/copano.jpg"
     }
 ]

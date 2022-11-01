@@ -19,7 +19,9 @@ botonTwit = document.querySelector("#botonTwit"),
 timelineTwits = document.querySelector("#timelineTwits"),
 inputBusqueda = document.querySelector("#inputBusqueda"),
 cerrarSesion = document.querySelector("#cerrarSesion"),
+cajaMenu = document.querySelector("#cajaMenu"),
 cajaEditarImagen = document.querySelector("#cajaEditarImagen"),
+hashtags = document.getElementsByClassName("hashtag"),
 timelineStored = JSON.parse(localStorage.getItem("timeline"));
 
 
@@ -212,16 +214,6 @@ if (localStorage.getItem("sesion")){
 }
 
 
-// Twitter
-
-// Reconocimiento de hashtags (sin funcionar aún, implementar más tarde)
-/* inputTwit.addEventListener("input", () => {
-    const hashtagRe = new RegExp(/\#(\w+)/g);
-    const str = inputTwit.value.match(hashtagRe)
-    console.log(inputTwit.value.replace(hashtagRe, "hola"));
-}) */
-
-
 // Verificación twits
 inputTwit.addEventListener("input", () => {
     if (inputTwit.value === "") {
@@ -250,6 +242,7 @@ const twitear = () => {
     localStorage.setItem("timeline", JSON.stringify(timeline));
     timelineTwits.innerHTML = ""
     mostrarTimeline(timeline);
+    animarTwit()
     botonTwit.classList.add("deshabilitadoTwit");
 }
 
@@ -263,13 +256,21 @@ const twitearAuto = (twit) => {
     localStorage.setItem("timeline", JSON.stringify(timeline));
     timelineTwits.innerHTML = ""
     mostrarTimeline(timeline);
+    animarTwit()
+}
+
+const animarTwit = () => {
+    if (timelineTwits.firstChild){
+        timelineTwits.firstChild.classList.add("nuevo")
+    }
 }
 
 
 // Verificar que no esté vacío, que no contenga solamente espacios
 botonTwit.addEventListener("click", () => {
     const soloEspacios = (str) => {
-        return /^\s*$/.test(str);
+        const reEspacios = new RegExp(/^\s*$/)
+        return reEspacios.test(str);
     }
 
     if (inputTwit.value === "") {
@@ -288,7 +289,7 @@ botonTwit.addEventListener("click", () => {
 const fetchTwits = async () => {
     const res = await fetch("./data/twits.json");
     const data = await res.json();
-    const dataMezcla = data.sort((a, b) => 0.5 - Math.random());
+    const dataMezcla = data.sort(() => Math.random() - 0.5);
 
     for (let i = 0; i < dataMezcla.length; i++) {
         setTimeout(() => {
@@ -314,25 +315,64 @@ const findImagen = (nombre) => {
     }
 }
 
+
 const twits = (contenido) => {
+    const hashtagRe = new RegExp(/\#(\w+)/g);
     const twit = document.createElement("div");
-    twit.classList.add("twit");
     const imagen = document.createElement("div");
+    const texto = document.createElement("div");
+    const destacado = "<span class='hashtag' data-frasehashtag='$1'>#$1</span>";
+
+    twit.classList.add("twit");
     imagen.classList.add("twitImagen");
-    const texto = document.createElement("div")
-    twit.appendChild(imagen)
-    twit.appendChild(texto)
-    imagen.innerHTML = `<img src="${findImagen(contenido.usuario)}" alt="${contenido.usuario}">`
+    twit.appendChild(imagen);
+    twit.appendChild(texto);
+    imagen.innerHTML = `<img src="${findImagen(contenido.usuario)}" alt="${contenido.usuario}">`;
     texto.innerHTML = `<p class="twitUsuario">@${contenido.usuario}<span class="twitFecha"> ${contenido.fecha}</span></p>`;
-    texto.innerHTML += `<p class="twitCuerpo">${contenido.cuerpo}</p>`;
-    return twit
+    texto.innerHTML += `<p class="twitCuerpo">${contenido.cuerpo.replace(hashtagRe, destacado)}</p>`;
+    return twit;
 }
 
-const mostrarTimeline = (arr) => {arr.forEach(
-    (param) => {
-        (timelineTwits.appendChild(twits(param)));
+
+// Hashtags interactivos
+const hashtagLinks = () => {
+    const cajaHashtags = document.querySelector("#cajaHashtags");
+    const listaHashtags = document.getElementsByClassName("listaHashtags");
+    const listaCompleta = [];
+    const titulo = "<h3>Hashtags:</h3>";
+    for (const hashtag of hashtags) {
+        hashtag.addEventListener("click", () => {
+            const frase= "#" + hashtag.dataset.frasehashtag;
+            inputBusqueda.value = frase;
+            buscar(frase);
+        })
+        listaCompleta.push(hashtag.dataset.frasehashtag);
     }
-)}
+    const lista = new Set(listaCompleta);
+
+    cajaHashtags.innerHTML = titulo;
+        for (const hashtag of lista) {
+        cajaHashtags.innerHTML += `<p class="listaHashtags">#${hashtag.toLowerCase()}</p>`;
+    }
+
+    for (const hashtag of listaHashtags) {
+        hashtag.addEventListener("click", () => {
+            const frase = hashtag.innerText;
+            inputBusqueda.value = frase;
+            buscar(frase);
+        })
+    }
+}
+
+
+// Imprimir timeline
+const mostrarTimeline = (arr) => {
+    arr.forEach((param) => {
+        (timelineTwits.appendChild(twits(param)));
+    })
+
+    hashtagLinks();
+}
 mostrarTimeline(timeline);
 
 
@@ -408,15 +448,25 @@ cerrarSesion.addEventListener("click", () => {
 
 // Búsqueda
 const buscar = (param) => {
+    const timelineBusqueda = document.querySelector("#timelineBusqueda")
     const busqueda = timeline.filter((twit) => {
-        return twit["cuerpo"].includes(param);
+        return twit["cuerpo"].toLowerCase().includes(param.toLowerCase());
     })
+    const mostrarBusqueda = (arr) => {
+        arr.forEach((param) => {
+            (timelineBusqueda.appendChild(twits(param)));
+        })
+    }
 
     if (busqueda.length > 0) {
-        timelineTwits.innerHTML = "";
-        mostrarTimeline(busqueda);
+        timelineTwits.classList.add("invisible")
+        timelineBusqueda.classList.remove("invisible")
+        timelineBusqueda.innerHTML = "";
+        mostrarBusqueda(busqueda);
     }else{
-        timelineTwits.innerHTML = `<p class="sinResultados">No hay resultados</p>`;
+        timelineTwits.classList.add("invisible")
+        timelineBusqueda.classList.remove("invisible")
+        timelineBusqueda.innerHTML = `<p class="sinResultados">No hay resultados</p>`;
     }
 }
 

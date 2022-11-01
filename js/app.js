@@ -19,6 +19,7 @@ botonTwit = document.querySelector("#botonTwit"),
 timelineTwits = document.querySelector("#timelineTwits"),
 inputBusqueda = document.querySelector("#inputBusqueda"),
 cerrarSesion = document.querySelector("#cerrarSesion"),
+cajaEditarImagen = document.querySelector("#cajaEditarImagen"),
 timelineStored = JSON.parse(localStorage.getItem("timeline"));
 
 
@@ -304,17 +305,16 @@ fetchTwits();
 
 
 // Mostrar timeline
-const twits = (contenido) => {
-    /* (usuarios.find((obj) => obj.usuario === registro.usuario.toLowerCase())) */
-    const findImagen = (nombre) => {
-        const autor = usuarios.find((obj) => obj.usuario === nombre)
-        if (autor.imagen === "") {
-            return "./img/perfil/default.png"
-        }else{
-            return autor.imagen
-        }
+const findImagen = (nombre) => {
+    const autor = usuarios.find((obj) => obj.usuario === nombre)
+    if (autor.imagen === "") {
+        return "./img/perfil/default.png"
+    }else{
+        return autor.imagen
     }
+}
 
+const twits = (contenido) => {
     const twit = document.createElement("div");
     twit.classList.add("twit");
     const imagen = document.createElement("div");
@@ -336,20 +336,75 @@ const mostrarTimeline = (arr) => {arr.forEach(
 mostrarTimeline(timeline);
 
 
-// Usuario actual
+// Usuario actual y editar imagen de perfil
 const mostrarUsuario = () => {
     const usuarioActual = document.querySelector("#usuarioActual")
-    if (localStorage.getItem("sesion")){
-        usuarioActual.innerHTML = "@" + localStorage.getItem("sesion");
+    const usuarioAutenticado = localStorage.getItem("sesion")
+    const guardarImagenPefil = document.querySelector("#guardarImagenPefil")
+
+    if (usuarioAutenticado){
+        usuarioActual.innerHTML = `<img src="${findImagen(usuarioAutenticado)}" alt="@${usuarioAutenticado}">`;
+        usuarioActual.innerHTML += `<img src="./img/editar.svg" id="imagenPerfilEditar">`;
+        usuarioActual.innerHTML += "@" + usuarioAutenticado;
+        
+        
+        // Editar imagen
+        const imagenPerfilEditar = document.querySelector("#imagenPerfilEditar");
+        const cancelarImagenPefil = document.querySelector("#cancelarImagenPefil");
+        const urlImagenPefil = document.querySelector("#urlImagenPefil");
+        const verificarUrl = new RegExp("((http|https)://)?\.(?:jpg|gif|png)");
+
+        imagenPerfilEditar.addEventListener("click", () => {
+            cajaEditarImagen.classList.remove("invisible");
+        })
+
+        cancelarImagenPefil.addEventListener("click", () => {
+            cajaEditarImagen.classList.add("invisible");
+            urlImagenPefil.value = "";
+        })
+
+
+        // Verificación de url de imagen
+        urlImagenPefil.addEventListener("input", () => {
+            
+            if (verificarUrl.test(urlImagenPefil.value)) {
+                guardarImagenPefil.classList.remove("deshabilitado");
+                urlImagenPefil.classList.remove("erroneo");
+            }else{
+                guardarImagenPefil.classList.add("deshabilitado");
+                urlImagenPefil.classList.add("erroneo");
+            }
+        })
+
+
+        //Guardar nueva imagen
+        const editarImagen = (nombre) => {
+            const usuario = usuarios.find((obj) => obj.usuario === nombre);
+            usuario.imagen = urlImagenPefil.value;
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        }
+
+        guardarImagenPefil.addEventListener("click", () => {
+            if (verificarUrl.test(urlImagenPefil.value)) {
+                editarImagen(usuarioAutenticado);
+                urlImagenPefil.value = "";
+                cajaEditarImagen.classList.add("invisible");
+                mostrarUsuario();
+            }else{
+                console.log("nop");
+            }
+        })
     }
 }
 mostrarUsuario();
+
 
 cerrarSesion.addEventListener("click", () => {
     localStorage.setItem("sesion", "");
     login.classList.remove("invisible");
     twitter.classList.add("invisible");
 })
+
 
 // Búsqueda
 const buscar = (param) => {

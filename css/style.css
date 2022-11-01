@@ -226,7 +226,7 @@ body {
 .twitImagen img {
     width: 50px;
     border-radius: 50px;
-    margin-right: 10px;
+    margin: 4px 10px 0 0;
     aspect-ratio: 1/1;
     object-fit: cover;
 }
@@ -260,6 +260,41 @@ body {
 #usuarioActual {
     font-weight: 900;
     margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#usuarioActual img {
+    width: 30px;
+    border-radius: 50px;
+}
+
+#imagenPerfilEditar {
+    position: absolute;
+    border: white solid 1px;
+    opacity: 0;
+}
+
+#imagenPerfilEditar:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#cajaEditarImagen {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formEditarImagen {
+    background-color: var(--negro);
+    padding: 20px;
+    border-radius: 20px;
 }
 
 #cerrarSesion {

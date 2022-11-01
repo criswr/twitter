@@ -351,7 +351,7 @@ const hashtagLinks = () => {
     const lista = new Set(listaCompleta);
 
     cajaHashtags.innerHTML = titulo;
-        for (const hashtag of lista) {
+    for (const hashtag of lista) {
         cajaHashtags.innerHTML += `<p class="listaHashtags">#${hashtag.toLowerCase()}</p>`;
     }
 
@@ -472,4 +472,5 @@ const buscar = (param) => {
 
 inputBusqueda.addEventListener("input", () => {
     buscar(inputBusqueda.value);
+    hashtagLinks()
 })

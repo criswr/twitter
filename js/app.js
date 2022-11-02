@@ -300,7 +300,7 @@ botonTwit.addEventListener("click", () => {
         inputTwit.focus();
         toast("El Twit no puede contener solamente espacios", "advertencia");
     }else{
-        twitear()
+        twitear();
         inputTwit.value = "";
     }
 })
@@ -399,9 +399,9 @@ mostrarTimeline(timeline);
 
 // Usuario actual y editar imagen de perfil
 const mostrarUsuario = () => {
-    const usuarioActual = document.querySelector("#usuarioActual")
-    const usuarioAutenticado = localStorage.getItem("sesion")
-    const guardarImagenPefil = document.querySelector("#guardarImagenPefil")
+    const usuarioActual = document.querySelector("#usuarioActual");
+    const usuarioAutenticado = localStorage.getItem("sesion");
+    const guardarImagenPefil = document.querySelector("#guardarImagenPefil");
 
     if (usuarioAutenticado){
         usuarioActual.innerHTML = `<img src="${findImagen(usuarioAutenticado)}" alt="@${usuarioAutenticado}">`;
@@ -451,10 +451,10 @@ const mostrarUsuario = () => {
                 urlImagenPefil.value = "";
                 cajaEditarImagen.classList.add("invisible");
                 mostrarUsuario();
-                timelineTwits.innerHTML = ""
+                timelineTwits.innerHTML = "";
                 mostrarTimeline(timeline);
             }else{
-                toast("Debes ingresar el enlace a una imagen", "advertencia")
+                toast("Debes ingresar el enlace a una imagen", "advertencia");
             }
         })
     }
@@ -466,13 +466,13 @@ cerrarSesion.addEventListener("click", () => {
     localStorage.setItem("sesion", "");
     login.classList.remove("invisible");
     twitter.classList.add("invisible");
-    mostrarIniciar()
+    mostrarIniciar();
 })
 
 
 // Búsqueda
 const buscar = (param) => {
-    const timelineBusqueda = document.querySelector("#timelineBusqueda")
+    const timelineBusqueda = document.querySelector("#timelineBusqueda");
     const busqueda = timeline.filter((twit) => {
         return twit["cuerpo"].toLowerCase().includes(param.toLowerCase());
     })
@@ -483,23 +483,23 @@ const buscar = (param) => {
     }
 
     if (busqueda.length > 0) {
-        timelineTwits.classList.add("invisible")
-        timelineBusqueda.classList.remove("invisible")
+        timelineTwits.classList.add("invisible");
+        timelineBusqueda.classList.remove("invisible");
         timelineBusqueda.innerHTML = "";
         mostrarBusqueda(busqueda);
     }else{
-        timelineTwits.classList.add("invisible")
-        timelineBusqueda.classList.remove("invisible")
+        timelineTwits.classList.add("invisible");
+        timelineBusqueda.classList.remove("invisible");
         timelineBusqueda.innerHTML = `<p class="sinResultados">No hay resultados</p>`;
     }
 }
 
 inputBusqueda.addEventListener("input", () => {
     if (inputBusqueda.value.length === 0){
-        timelineTwits.classList.remove("invisible")
-        document.querySelector("#timelineBusqueda").classList.add("invisible")       
+        timelineTwits.classList.remove("invisible");
+        document.querySelector("#timelineBusqueda").classList.add("invisible"); 
     }else{
         buscar(inputBusqueda.value);
-        hashtagLinks()
+        hashtagLinks();
     }
 })

@@ -4,7 +4,7 @@
 
 ### ⚡ Registro y login:
 *   Si es la primera visita a la app, muestra primero la vista de registro, de otra forma muestra la vista de login.
-*   Campos con validación de contenido; no pueden estar vacíos y el nombre de usuario no puede contener espacios ni estar registrado previamente.
+*   Campos con validación de contenido. No pueden estar vacíos y el nombre de usuario no puede contener espacios ni estar registrado previamente.
 *   Login de dos pasos.
 
 ### ⚡ Twitter:

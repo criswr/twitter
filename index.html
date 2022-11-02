@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" href="./img/twitter-logo.svg" type="image/x-icon">
     <title>Twitter</title>
@@ -52,7 +53,7 @@
     <div class="cajaTwitter invisible" id="cajaTwitter">
         <div id="cajaTimeline" class="cajaTimeline">
             <form action="">
-                <textarea name="twit" maxlength="240" id="inputTwit" class="inputTwit"></textarea>
+                <textarea name="twit" maxlength="240" id="inputTwit" class="inputTwit" placeholder="Qué está pasando?"></textarea>
                 <button class="botonTwit deshabilitadoTwit" type="button" id="botonTwit">Twittear</button>
             </form>
             <div id="timelineTwits"></div>
@@ -87,6 +88,7 @@
     <footer>
         <p>Desarrollado por <a href="https://github.com/criswr" target="_blank">Cristian</a></p>
     </footer>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./js/app.js"></script>
 </body>
 </html>

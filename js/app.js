@@ -26,23 +26,46 @@ timelineStored = JSON.parse(localStorage.getItem("timeline"));
 
 
 let usuarios = [],
-timeline = timelineStored || [] 
+timeline = timelineStored || [];
 
+
+// Toastify JS
+const toast = (texto, color) => {
+    let classn = "";
+    if (color === "info") {
+        classn = "toastInfo";
+    }else{
+        classn = "toastAdvertencia";
+    }
+    Toastify({
+        text: texto,
+        className: classn,
+        close: true,
+      }).showToast();
+}
 
 // Login y registro
 const mostrarIniciar = () => {
-    const loginPassword = document.querySelector("#loginPassword")
-    loginUsuario.classList.toggle("invisible");
-    loginPassword.classList.toggle("invisible");
+    const loginPassword = document.querySelector("#loginPassword");
+    loginUsuario.classList.remove("invisible");
+    loginRegistrarse.classList.add("invisible");
+    loginPassword.classList.add("invisible");
+}
+
+const mostrarContrasena = () => {
+    const loginPassword = document.querySelector("#loginPassword");
+    loginUsuario.classList.add("invisible");
+    loginRegistrarse.classList.add("invisible");
+    loginPassword.classList.remove("invisible");
 }
 
 const mostrarRegistrarse = () => {
-    loginUsuario.classList.toggle("invisible");
-    loginRegistrarse.classList.toggle("invisible");
+    loginUsuario.classList.add("invisible");
+    loginRegistrarse.classList.remove("invisible");
 }
 
-botonVolver.addEventListener("click", mostrarIniciar)
-botonYaTengo.addEventListener("click", mostrarRegistrarse);
+botonVolver.addEventListener("click", mostrarIniciar);
+botonYaTengo.addEventListener("click", mostrarIniciar);
 botonRegistrarse.addEventListener("click", mostrarRegistrarse);
 
 
@@ -95,7 +118,7 @@ const fetchUsuarios = async () => {
     const res = await fetch("./data/usuarios.json");
     const data = await res.json();
     localStorage.setItem("usuarios", JSON.stringify(data));
-    usuarios = data
+    usuarios = data;
 }
 
 
@@ -103,25 +126,12 @@ const fetchUsuarios = async () => {
 const recuperarUsuarios = () => {
     const usuariosStored = JSON.parse(localStorage.getItem("usuarios"));
     if (usuariosStored) {
-        usuarios = usuariosStored
+        usuarios = usuariosStored;
     }else{
-        fetchUsuarios()
+        fetchUsuarios();
     }
 }
-recuperarUsuarios()
-
-
-
-const advertir = (texto, color) => {
-    advertencia.classList.remove("invisible");
-    advertencia.innerText = texto
-    if (color === "rojo"){
-        advertencia.style.backgroundColor = "#c51f5d"
-    }else{
-        advertencia.style.backgroundColor = "#243447"
-    }
-    setTimeout(() => advertencia.classList.add("invisible"), 3000);
-}
+recuperarUsuarios();
 
 
 // Agregar a localstorage
@@ -133,22 +143,26 @@ const registrar = () => {
     };
 
     const limpiar = () => {
-        inputUsuarioRegistro.value = ""
-        inputPasswordRegistro.value = ""
+        inputUsuarioRegistro.value = "";
+        inputPasswordRegistro.value = "";
     };
 
     if (registro.usuario === "" || registro.password ===""){
-        advertir("Ambos campos deben completarse", "rojo");
+        toast("Ambos campos deben completarse", "advertencia");
+        inputPasswordRegistro.focus();
     }else if (registro.usuario.includes(" ")){
-        advertir("El nombre de usuario no puede tener espacios", "rojo");
+        toast("El nombre de usuario no puede tener espacios", "advertencia");
+        inputUsuarioRegistro.focus();
     }else if (usuarios.find((obj) => obj.usuario === registro.usuario.toLowerCase())){
-        advertir("El nombre de usuario no está disponible", "rojo");
+        toast("El nombre de usuario ya existe", "advertencia");
+        inputUsuarioRegistro.focus();
     }else{
         usuarios.push(registro);
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        mostrarRegistrarse();
+        mostrarIniciar();
         limpiar();
-        advertir("Listo! Ya puedes inicar sesión");
+        toast("Listo! Ya puedes inicar sesión", "info");
+        inputUsuarioInicio.focus();
     }
 }
 
@@ -168,13 +182,17 @@ inputUsuarioInicio.addEventListener("input", () => {
 
 loginSiguiente.addEventListener("click", () => {
     if (inputUsuarioInicio.value === ""){
-        advertir("Debes ingresar tu nombre de usuario", "rojo");
+        toast("Debes ingresar tu nombre de usuario", "advertencia");
+        inputUsuarioInicio.focus();
     }else if (inputUsuarioInicio.value.includes(" ")){
-        advertir("El nombre de usuario no contiene espacios", "rojo");
+        toast("El nombre de usuario no contiene espacios", "advertencia");
+        inputUsuarioInicio.focus();
     }else if(usuarios.find((obj) => obj.usuario === inputUsuarioInicio.value.toLowerCase())){
-        mostrarIniciar();
+        mostrarContrasena();
+        inputPasswordInicio.focus();
     }else{
-        advertir("El usuario no existe", "rojo");
+        toast("El usuario no existe", "advertencia");
+        inputUsuarioInicio.focus();
     }
 })
 
@@ -190,11 +208,11 @@ inputPasswordInicio.addEventListener("input", () => {
 
 loginIniciar.addEventListener("click", () => {
     const limpiar = () => {
-        inputUsuarioInicio.value = ""
-        inputPasswordInicio.value = ""
+        inputUsuarioInicio.value = "";
+        inputPasswordInicio.value = "";
     }
     if (inputUsuarioInicio.value === ""){
-        advertir("Debes ingresar tu contraseña", "rojo")
+        advertir("Debes ingresar tu contraseña", "rojo");
     }else if(usuarios.find(((obj) => obj.usuario === inputUsuarioInicio.value) && ((obj) => obj.password === inputPasswordInicio.value))){
         login.classList.add("invisible");
         twitter.classList.remove("invisible");
@@ -202,7 +220,7 @@ loginIniciar.addEventListener("click", () => {
         mostrarUsuario();
         limpiar();
     }else{
-        advertir("La contraseña no coincide", "rojo");
+        toast("La contraseña no coincide", "advertencia");
     }
 })
 
@@ -223,26 +241,24 @@ inputTwit.addEventListener("input", () => {
     }
 })
 
-inputTwit.placeholder = "Qué está pasando?";
-
 // Constructor de Twits
 function Twit(usuario, cuerpo, id) {
-    const opcionesFecha = { year: "numeric", month: "long", day: "numeric"}
+    const opcionesFecha = { year: "numeric", month: "long", day: "numeric"};
     this.usuario = usuario;
     this.cuerpo = cuerpo;
     this.fecha = new Date().toLocaleTimeString("es-ES", opcionesFecha);
-    this.id = id
+    this.id = id;
 }
 
 const twitear = () => {
     const usuario = localStorage.getItem("sesion");
     const cuerpo = inputTwit.value;
-    const id = ""
+    const id = "";
     timeline.unshift(new Twit(usuario, cuerpo, id));
     localStorage.setItem("timeline", JSON.stringify(timeline));
-    timelineTwits.innerHTML = ""
+    timelineTwits.innerHTML = "";
     mostrarTimeline(timeline);
-    animarTwit()
+    animarTwit();
     botonTwit.classList.add("deshabilitadoTwit");
 }
 
@@ -251,17 +267,20 @@ const twitear = () => {
 const twitearAuto = (twit) => {
     const usuario = twit.usuario;
     const cuerpo = twit.cuerpo;
-    const id = twit.id
+    const id = twit.id;
     timeline.unshift(new Twit(usuario, cuerpo, id));
     localStorage.setItem("timeline", JSON.stringify(timeline));
-    timelineTwits.innerHTML = ""
+    timelineTwits.innerHTML = "";
     mostrarTimeline(timeline);
-    animarTwit()
+    animarTwit();
 }
 
 const animarTwit = () => {
     if (timelineTwits.firstChild){
-        timelineTwits.firstChild.classList.add("nuevo")
+        timelineTwits.firstChild.classList.add("nuevo");
+        setTimeout(() => {
+        timelineTwits.firstChild.classList.remove("nuevo");
+            }, 2100);
     }
 }
 
@@ -269,15 +288,17 @@ const animarTwit = () => {
 // Verificar que no esté vacío, que no contenga solamente espacios
 botonTwit.addEventListener("click", () => {
     const soloEspacios = (str) => {
-        const reEspacios = new RegExp(/^\s*$/)
+        const reEspacios = new RegExp(/^\s*$/);
         return reEspacios.test(str);
     }
 
     if (inputTwit.value === "") {
         inputTwit.focus();
+        toast("El Twit no puede estar vacío", "advertencia");
     }else if (soloEspacios(inputTwit.value)) {
         inputTwit.value = "";
         inputTwit.focus();
+        toast("El Twit no puede contener solamente espacios", "advertencia");
     }else{
         twitear()
         inputTwit.value = "";
@@ -297,21 +318,19 @@ const fetchTwits = async () => {
             if (!timeline.find((obj) => obj.id === dataMezcla[i].id)) {
                 twitearAuto(dataMezcla[i]);
             }           
-        }, 10000 * i);
+        }, 15000 * i);
     }
 }
 fetchTwits();
 
 
-
-
 // Mostrar timeline
 const findImagen = (nombre) => {
-    const autor = usuarios.find((obj) => obj.usuario === nombre)
+    const autor = usuarios.find((obj) => obj.usuario === nombre);
     if (autor.imagen === "") {
-        return "./img/perfil/default.png"
+        return "./img/perfil/default.png";
     }else{
-        return autor.imagen
+        return autor.imagen;
     }
 }
 
@@ -345,6 +364,7 @@ const hashtagLinks = () => {
             const frase= "#" + hashtag.dataset.frasehashtag;
             inputBusqueda.value = frase;
             buscar(frase);
+            inputBusqueda.focus();
         })
         listaCompleta.push(hashtag.dataset.frasehashtag);
     }
@@ -360,6 +380,7 @@ const hashtagLinks = () => {
             const frase = hashtag.innerText;
             inputBusqueda.value = frase;
             buscar(frase);
+            inputBusqueda.focus();
         })
     }
 }
@@ -430,8 +451,10 @@ const mostrarUsuario = () => {
                 urlImagenPefil.value = "";
                 cajaEditarImagen.classList.add("invisible");
                 mostrarUsuario();
+                timelineTwits.innerHTML = ""
+                mostrarTimeline(timeline);
             }else{
-                console.log("nop");
+                toast("Debes ingresar el enlace a una imagen", "advertencia")
             }
         })
     }
@@ -443,6 +466,7 @@ cerrarSesion.addEventListener("click", () => {
     localStorage.setItem("sesion", "");
     login.classList.remove("invisible");
     twitter.classList.add("invisible");
+    mostrarIniciar()
 })
 
 
@@ -471,6 +495,11 @@ const buscar = (param) => {
 }
 
 inputBusqueda.addEventListener("input", () => {
-    buscar(inputBusqueda.value);
-    hashtagLinks()
+    if (inputBusqueda.value.length === 0){
+        timelineTwits.classList.remove("invisible")
+        document.querySelector("#timelineBusqueda").classList.add("invisible")       
+    }else{
+        buscar(inputBusqueda.value);
+        hashtagLinks()
+    }
 })

@@ -41,15 +41,15 @@ body {
 
 .login {
     background-color: var(--negro);
-    height: 70vh;
+    padding: 50px 0 60px 0;
     width: 90%;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
     align-items: center;
     border-radius: 20px;
-    
 }
 
 .login img{
@@ -83,6 +83,10 @@ body {
     padding: 4px 20px;
     width: 100%;
     margin-top: 10px;
+}
+
+.input:focus {
+    border: var(--grisClaro) 1px solid;
 }
 
 .inputUsuario {
@@ -179,6 +183,7 @@ body {
 .menuItems {
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
 }
 
 .inputTwit {
@@ -191,6 +196,10 @@ body {
     outline: 0;
     padding: 10px 20px;
     width: 100%;
+}
+
+.inputTwit:focus {
+    border: var(--grisClaro) 1px solid;
 }
 
 .botonTwit {
@@ -288,7 +297,7 @@ body {
 
 .nuevo {
     animation-name: mostrar;
-    animation-duration: 2s;
+    animation-duration: 2000ms;
     animation-fill-mode: forwards;
 }
 
@@ -359,6 +368,14 @@ body {
     margin-bottom: 10px;
 }
 
+#inputBusqueda:focus {
+    border: var(--grisClaro) 1px solid;
+}
+
+#cajaHashtags {
+    display: none;
+}
+
 footer {
     padding: 5px;
 }
@@ -369,9 +386,20 @@ footer p, footer a{
     text-align: center;
 }
 
+.toastInfo, .toastAdvertencia {
+    padding: 10px 20px;
+    background: linear-gradient(to right, var(--negro), var(--principalOscuro));
+    cursor: default;
+    border: var(--grisClaro) solid 1px;
+    border-radius: 5px;
+}
+
+.toastAdvertencia {
+    border: var(--destacadoOscuro) solid 1px;
+}
+
 @media screen and (min-width: 600px) {
     /* Twitter */
-
     .cajaTwitter {
         display: flex;
         flex-direction: row; 
@@ -384,6 +412,7 @@ footer p, footer a{
         padding: 10px;
     }
 
+    /* Menu */
     .cajaMenu {
         width: 30%;
         max-width: 300px;
@@ -391,6 +420,12 @@ footer p, footer a{
     }
 
     .menuItems {
-        flex-direction: column;  
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 20px;
+    }
+
+    #cajaHashtags {
+        display: block;
     }
 }

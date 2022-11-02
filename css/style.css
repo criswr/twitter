@@ -1,0 +1,431 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;400;900&display=swap');
+
+:root {
+    --principal: #1DA1F2;
+    --principalOscuro: #243447;
+    --negro: #14171A;
+    --grisOscuro: #657786;
+    --grisClaro: #AAB8C2;
+    --destacadoOscuro: #c51f5d;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+body {
+    background-color: var(--principalOscuro);
+}
+
+.invisible {
+    display: none !important;
+}
+
+.relative {
+    position: relative;
+}
+
+
+/* Login */
+
+.loginCont {
+    min-height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    background-color: var(--negro);
+    padding: 50px 0 60px 0;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.login img{
+    filter: brightness(0) invert(1);
+    width: 30px;
+    opacity: 0.8;
+}
+
+.logoApp{
+    width: 30px;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+}
+
+
+.loginLlamada {
+    font-size: 1.6rem;
+    color: var(--grisClaro);
+}
+
+.input {
+    background-color: var(--negro);
+    border-radius: 5px;
+    border: var(--grisOscuro) 1px solid;
+    font-size: 18px;
+    height: 50px;
+    outline: 0;
+    padding: 4px 20px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.input:focus {
+    border: var(--grisClaro) 1px solid;
+}
+
+.inputUsuario {
+    padding-left: 40px;
+}
+
+.labelUsuario {
+    position: absolute;
+    font-size: 20px;
+    top: 22px;
+    left: 15px;
+    color: var(--grisOscuro);
+    font-weight: 900;
+}
+
+.botonLogin {
+    background-color: var(--grisClaro);
+    color: var(--negro);
+    border-radius: 50px;
+    border: 0;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+.deshabilitado {
+    background-color: var(--principalOscuro);
+    cursor: default;
+}
+
+.erroneo {
+    border: var(--destacadoOscuro) 1px solid;
+}
+
+.botonVolver {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 15px;
+    color: var(--grisOscuro);
+    cursor: pointer;
+}
+
+.oBien::before, .oBien::after {
+    content: "";
+    display: block;
+    position: absolute;
+    margin-top: 8px;
+    width: 40%;
+    height: 1px;
+    background-color: var(--grisOscuro)
+}
+
+.oBien::after {
+    margin-top: -7px;
+    margin-left: 60%;
+}
+
+.oBien {
+    cursor: default;
+}
+
+#advertencia {
+    border-radius: 50px;
+    padding: 5px 15px;
+    position: absolute;
+    margin-top: -350px;
+    font-size: 0.8rem;
+}
+
+
+/* Twitter */
+
+.cajaTwitter {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: start;
+}
+
+.cajaTimeline {
+    padding: 10px;
+}
+
+.cajaMenu {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.menuItems {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.inputTwit {
+    resize: none;
+    background-color: var(--principalOscuro);
+    border-radius: 5px;
+    border: var(--grisOscuro) 1px solid;
+    font-size: 20px;
+    height: 100px;
+    outline: 0;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.inputTwit:focus {
+    border: var(--grisClaro) 1px solid;
+}
+
+.botonTwit {
+    background-color: var(--grisClaro);
+    color: var(--negro);
+    border-radius: 50px;
+    border: 0;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    float: right;
+}
+
+.deshabilitadoTwit {
+    cursor: default;
+    background-color: var(--grisOscuro);
+}
+
+#timelineTwits, #timelineBusqueda {
+    margin-top: 90px;
+}
+
+.twit {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--grisOscuro);
+    display: flex;
+}
+
+.twitImagen img {
+    width: 50px;
+    border-radius: 50px;
+    margin: 4px 10px 0 0;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.twitUsuario {
+    font-weight: 900;
+    font-size: 0.9rem;
+}
+
+.twitCuerpo {
+    margin-top: 2px;
+    font-weight: 400;
+    color: #dbdbdb;
+    letter-spacing: 0.5px;
+}
+
+.twitFecha {
+    font-weight: 400;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-left: 5px;
+}
+
+.hashtag {
+    font-weight: 600;
+    color: var(--principal);
+    cursor: pointer;
+}
+
+.listaHashtags {
+    font-size: 0.9rem;
+    color: var(--principal);
+    cursor: pointer;
+}
+
+@keyframes mostrar {
+    0% {
+        opacity: 0;
+        height: 0px;
+        line-height: 0px;
+        padding: 0px;
+        margin-bottom: 0px;
+    }
+    25% {
+        opacity: 0;
+        height: 100%;
+        line-height: 100%;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+    100% {
+        opacity: 1;
+        height: 100%;
+        line-height: 100%;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.nuevo {
+    animation-name: mostrar;
+    animation-duration: 2000ms;
+    animation-fill-mode: forwards;
+}
+
+.sinResultados {
+    font-size: 1.5rem;
+}
+
+
+/* Menú */
+
+#usuarioActual {
+    font-weight: 900;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#usuarioActual img {
+    width: 30px;
+    border-radius: 50px;
+}
+
+#imagenPerfilEditar {
+    position: absolute;
+    border: white solid 1px;
+    opacity: 0;
+}
+
+#imagenPerfilEditar:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#cajaEditarImagen {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formEditarImagen {
+    background-color: var(--negro);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+#cerrarSesion {
+    font-weight: 400;
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+#inputBusqueda {
+    background-color: var(--principalOscuro);
+    border-radius: 5px;
+    border: var(--grisOscuro) 1px solid;
+    font-size: 15px;
+    height: 40px;
+    outline: 0;
+    padding: 4px 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#inputBusqueda:focus {
+    border: var(--grisClaro) 1px solid;
+}
+
+#cajaHashtags {
+    display: none;
+}
+
+footer {
+    padding: 5px;
+}
+
+footer p, footer a{
+    color: var(--grisOscuro);
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.toastInfo, .toastAdvertencia {
+    padding: 10px 20px;
+    background: linear-gradient(to right, var(--negro), var(--principalOscuro));
+    cursor: default;
+    border: var(--grisClaro) solid 1px;
+    border-radius: 5px;
+}
+
+.toastAdvertencia {
+    border: var(--destacadoOscuro) solid 1px;
+}
+
+@media screen and (min-width: 600px) {
+    /* Twitter */
+    .cajaTwitter {
+        display: flex;
+        flex-direction: row; 
+        justify-content: center;
+}
+
+    .cajaTimeline {
+        width: 70%;
+        max-width: 500px;
+        padding: 10px;
+    }
+
+    /* Menu */
+    .cajaMenu {
+        width: 30%;
+        max-width: 300px;
+        padding: 10px;
+    }
+
+    .menuItems {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 20px;
+    }
+
+    #cajaHashtags {
+        display: block;
+    }
+}

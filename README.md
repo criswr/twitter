@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# twitter
-Proyecto Coder JS
-=======
 # Simulador de Twitter
 
 **Live en: [https://criswr.github.io/twitter/](https://criswr.github.io/twitter/)**
@@ -39,4 +35,3 @@ Proyecto Coder JS
 
 ### 👤 Conectar:
 [LinkedIn](https://www.linkedin.com/in/criswr)
->>>>>>> entregaFinal
